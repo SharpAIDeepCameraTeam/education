@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "static")));
 
+// Route handlers
 app.get('/app', (req, res) => {
   res.sendFile(path.join(process.cwd(), './static/index.html'));
 });
@@ -20,16 +21,33 @@ app.get('/student', (req, res) => {
   res.sendFile(path.join(process.cwd(), './static/loader.html'));
 });
 
-app.get('/apps', (req, res) => {
-  res.sendFile(path.join(process.cwd(), './static/apps.html'));
-});
-
 app.get('/lessons', (req, res) => {
   res.sendFile(path.join(process.cwd(), './static/agloader.html'));
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'static', 'login.html'));
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'static', 'index.html'));
+});
+
+// Handle Eaglercraft files
+app.get('/silicon-eaglercraft-launcher-main/*', (req, res) => {
+  const filePath = path.join(__dirname, req.path);
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(404).redirect('/');
+    }
+  });
+});
+
+// Catch-all route - must be last
 app.get('*', (req, res) => {
-  res.redirect('/');
+  if (!res.headersSent) {
+    res.redirect('/');
+  }
 });
 
 httpServer.on("request", (req, res) => {

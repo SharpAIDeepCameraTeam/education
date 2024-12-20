@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="Educational Resource Portal Login">
+  <meta name="keywords" content="education, learning, student resources">
+  <link rel="stylesheet" href="/assets/css/app.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap-icons.css">
+  <title>Login - Educational Resources</title>
+  <style>
+    body {
+      background-color: #1c1c1d;
+      color: #c9c9c9;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      background: #2c2c2d;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .login-title {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #c9c9c9;
+    }
+    .login-input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #3c3c3d;
+      border-radius: 4px;
+      background: #1c1c1d;
+      color: #c9c9c9;
+    }
+    .login-button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background: #0066cc;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .login-button:hover {
+      background: #0052a3;
+    }
+    .error-message {
+      color: #ff4444;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2 class="login-title">Login Required</h2>
+    <div>
+      <input type="text" id="username" class="login-input" placeholder="Username" required>
+      <input type="password" id="password" class="login-input" placeholder="Password" required>
+      <button onclick="login()" class="login-button">Login</button>
+      <p id="error-message" class="error-message">Invalid username or password</p>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('error-message');
+      
+      if (username === 'interstellerapex' && password === '020113211') {
+        localStorage.setItem('isLoggedIn', 'true');
+        window.location.href = '/';
+      } else {
+        errorMessage.style.display = 'block';
+      }
+    }
+
+    // Check if already logged in
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      window.location.href = '/';
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        login();
+      }
+    });
+  </script>
+</body>
+</html>
