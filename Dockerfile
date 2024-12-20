@@ -1,9 +1,18 @@
 # syntax=docker/dockerfile:1
-FROM node:19-bullseye
-ENV NODE_ENV=production
+FROM node:18-bullseye-slim
+
+# Set working directory
 WORKDIR /app
-COPY ["package.json", "package-lock.json*", "./"]
-RUN npm install
-EXPOSE 8000
+
+# Install dependencies
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy app source
 COPY . .
-CMD [ "npm", "start" ]
+
+# Expose port
+EXPOSE 8000
+
+# Start app
+CMD ["node", "index.js"]

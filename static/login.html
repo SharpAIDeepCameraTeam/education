@@ -5,88 +5,331 @@
   <meta name="robots" content="noindex">
   <meta name="description" content="Educational Resource Portal Login">
   <meta name="keywords" content="education, learning, student resources">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1CWFC073F2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1CWFC073F2');
+  </script>
   <link rel="stylesheet" href="/assets/css/app.css">
   <link rel="stylesheet" href="/assets/css/bootstrap-icons.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <title>Login - Educational Resources</title>
   <style>
+    :root {
+      --primary-color: #ff3a3a;
+      --secondary-color: #1e1e1e;
+      --accent-color: #4a90e2;
+      --background-dark: #0a0a0a;
+      --text-color: #ffffff;
+      --input-bg: rgba(255, 255, 255, 0.05);
+      --card-bg: rgba(28, 28, 29, 0.8);
+    }
+
     body {
-      background-color: #1c1c1d;
-      color: #c9c9c9;
-      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255, 58, 58, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
     .login-container {
+      width: 100%;
       max-width: 400px;
-      margin: 100px auto;
-      padding: 20px;
-      background: #2c2c2d;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.5s ease-out;
     }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     .login-title {
-      font-size: 24px;
       text-align: center;
-      margin-bottom: 20px;
-      color: #c9c9c9;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-color);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+
+    .input-group .toggle-password {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--text-color);
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .input-group .toggle-password:hover {
+      opacity: 1;
+    }
+
     .login-input {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #3c3c3d;
-      border-radius: 4px;
-      background: #1c1c1d;
-      color: #c9c9c9;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background: var(--input-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s;
+      box-sizing: border-box;
     }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(255, 58, 58, 0.1);
+    }
+
+    .login-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
     .login-button {
       width: 100%;
-      padding: 10px;
-      margin-top: 20px;
-      background: #0066cc;
+      padding: 1rem;
+      background: var(--primary-color);
       border: none;
-      border-radius: 4px;
+      border-radius: 8px;
       color: white;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      overflow: hidden;
     }
+
+    .login-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    .login-button:hover::before {
+      left: 100%;
+    }
+
     .login-button:hover {
-      background: #0052a3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 58, 58, 0.4);
     }
-    .error-message {
-      color: #ff4444;
+
+    .error-message, .blocked-message {
+      color: var(--primary-color);
       text-align: center;
-      margin-top: 10px;
       display: none;
+      margin-top: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 58, 58, 0.1);
+      font-size: 0.9rem;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    .timer {
+      text-align: center;
+      color: var(--text-color);
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      opacity: 0.8;
+    }
+
+    .blocked-message {
+      background: rgba(255, 58, 58, 0.15);
+      border: 1px solid rgba(255, 58, 58, 0.3);
+      font-weight: 500;
+    }
+
+    /* Disabled state */
+    .login-input:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .login-button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-button:disabled:hover {
+      box-shadow: none;
+      transform: none;
     }
   </style>
 </head>
 <body>
   <div class="login-container">
-    <h2 class="login-title">Login Required</h2>
+    <h2 class="login-title">Welcome Back</h2>
     <div>
-      <input type="text" id="username" class="login-input" placeholder="Username" required>
-      <input type="password" id="password" class="login-input" placeholder="Password" required>
-      <button onclick="login()" class="login-button">Login</button>
+      <div class="input-group">
+        <i class="bi bi-person-fill"></i>
+        <input type="text" id="username" class="login-input" placeholder="Username" required>
+      </div>
+      <div class="input-group">
+        <i class="bi bi-lock-fill"></i>
+        <input type="password" id="password" class="login-input" placeholder="Password" required>
+        <i class="bi bi-eye-slash-fill toggle-password" id="togglePassword"></i>
+      </div>
+      <button onclick="login()" class="login-button">
+        <span>Login</span>
+      </button>
       <p id="error-message" class="error-message">Invalid username or password</p>
+      <p id="timer" class="timer"></p>
+      <p id="blocked-message" class="blocked-message">Access blocked. Please try again later.</p>
     </div>
   </div>
 
   <script>
+    let timeLeft = 15;
+    let timer;
+    let failedAttempts = parseInt(localStorage.getItem('failedAttempts') || '0');
+    const blockDuration = 2;
+
+    // Password toggle functionality
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+    
+    togglePassword.addEventListener('click', function() {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      this.classList.toggle('bi-eye-fill');
+      this.classList.toggle('bi-eye-slash-fill');
+    });
+
+    function startTimer() {
+      timeLeft = 15;
+      updateTimer();
+      timer = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          handleTimeout();
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      document.getElementById('timer').textContent = `Time remaining: ${timeLeft} seconds`;
+    }
+
+    function handleTimeout() {
+      failedAttempts++;
+      localStorage.setItem('failedAttempts', failedAttempts);
+      if (failedAttempts >= blockDuration) {
+        document.getElementById('blocked-message').style.display = 'block';
+        document.getElementById('username').disabled = true;
+        document.getElementById('password').disabled = true;
+        document.querySelector('.login-button').disabled = true;
+        togglePassword.style.display = 'none';
+      } else {
+        document.getElementById('error-message').style.display = 'block';
+      }
+    }
+
     function login() {
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const errorMessage = document.getElementById('error-message');
       
-      if (username === 'interstellerapex' && password === '020113211') {
+      if (username === 'interstellerapex' && password === '123123') {
+        clearInterval(timer);
         localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('failedAttempts', '0');
         window.location.href = '/';
       } else {
         errorMessage.style.display = 'block';
+        handleTimeout();
       }
     }
 
     // Check if already logged in
     if (localStorage.getItem('isLoggedIn') === 'true') {
       window.location.href = '/';
+    }
+
+    // Check if blocked
+    if (failedAttempts >= blockDuration) {
+      document.getElementById('blocked-message').style.display = 'block';
+      document.getElementById('username').disabled = true;
+      document.getElementById('password').disabled = true;
+      document.querySelector('.login-button').disabled = true;
+      togglePassword.style.display = 'none';
+    } else {
+      startTimer();
     }
 
     // Allow Enter key to submit
