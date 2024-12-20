@@ -1,0 +1,21 @@
+app:
+  name: education
+  services:
+    - name: education
+      type: web
+      ports:
+        - port: 8000
+          http: "/"
+      dockerfile: Dockerfile
+      env:
+        - name: NODE_ENV
+          value: production
+      healthCheck:
+        httpGet:
+          path: /
+          port: 8000
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      scaling:
+        min: 1
+        max: 1
