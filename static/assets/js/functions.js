@@ -7,41 +7,6 @@ function send(url) {
   location.href = window.location.origin + url;
 }
 
-// about:blank cloaking
-var blankerCheck = localStorage.getItem('aboutBlank');
-if (blankerCheck === 'enabled') {
-  let inFrame
-  try {
-      inFrame = window !== top
-  } catch (e) {
-      inFrame = true
-  }
-  if (!inFrame && !navigator.userAgent.includes("Firefox")) {
-      const popup = open("about:blank", "_blank")
-      if (!popup || popup.closed) {
-          alert("Please allow popups and redirects for about:blank cloak to work.")
-      } else {
-          const doc = popup.document
-          const iframe = doc.createElement("iframe")
-          const style = iframe.style
-          const link = doc.createElement("link")
-          const name = localStorage.getItem("name") || "My Drive - Google Drive";
-          const icon = localStorage.getItem("icon") || "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png";
-          doc.title = name;
-          link.rel = "icon";
-          link.href = icon;
-          iframe.src = location.href
-          style.position = "fixed"
-          style.top = style.bottom = style.left = style.right = 0
-          style.border = style.outline = "none"
-          style.width = style.height = "100%"
-          doc.head.appendChild(link);
-          doc.body.appendChild(iframe)
-          location.replace("https://classroom.google.com")
-      }
-  }
-}
-
 var leaveConf = localStorage.getItem("leaveConfirmation");
 
 if (leaveConf === 'enabled') {
@@ -102,44 +67,46 @@ function toggleSubmenu2(event) {
 }
 
 function tabCloak() {
-  var newTitle = localStorage.getItem('cloakedTitle');
-  var newIcon = localStorage.getItem('cloakedIcon');
+  var newTitle = localStorage.getItem('tabTitle') || 'Educational Resources';
+  var iconClass = localStorage.getItem('tabIcon') || 'bi-book';
 
-  if (newTitle === null || newTitle === '') {
-      alert('No Cloak Detected. Please select one in settings.');
-  } else {
-      localStorage.setItem('tabTitle', newTitle);
-      localStorage.setItem('tabIcon', newIcon);
-      document.title = newTitle;
-      var icon = document.querySelector('link[rel="icon"]');
-      icon.setAttribute('href', newIcon);
+  // Update title
+  document.title = newTitle;
+
+  // Update favicon with an icon element
+  var link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
   }
-}
 
+  // Create a temporary canvas to draw the icon
+  var canvas = document.createElement('canvas');
+  canvas.width = 32;
+  canvas.height = 32;
+  var ctx = canvas.getContext('2d');
+
+  // Draw icon background
+  ctx.fillStyle = '#0066cc';
+  ctx.fillRect(0, 0, 32, 32);
+
+  // Draw icon text
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '20px bootstrap-icons';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(String.fromCharCode(parseInt('F116', 16)), 16, 16);
+
+  // Convert canvas to favicon
+  link.href = canvas.toDataURL('image/png');
+}
 
 function disableTabCloak() {
-  var newTitle = 'Doge | V4';
-  var newIcon = '/assets/img/doge.jpg';
-
-  localStorage.setItem('tabTitle', newTitle);
-  localStorage.setItem('tabIcon', newIcon);
-
-  document.title = newTitle;
-  var icon = document.querySelector('link[rel="icon"]');
-  icon.setAttribute('href', newIcon);
-}
-
-function openWindow() {
-  var win = window.open();
-  win.document.body.style.margin = '0';
-  win.document.body.style.height = '100vh';
-  var iframe = win.document.createElement('iframe');
-  iframe.style.border = 'none';
-  iframe.style.width = '100%';
-  iframe.style.height = '100%';
-  iframe.style.margin = '0';
-  iframe.src = window.location.href;
-  win.document.body.appendChild(iframe);
+  document.title = 'Educational Resources';
+  localStorage.setItem('tabTitle', 'Educational Resources');
+  localStorage.setItem('tabIcon', 'bi-book');
+  tabCloak();
 }
 
 function visitLastSite() {
@@ -185,7 +152,11 @@ function hideSubmenu2() {
 }
 
 function openSettings() {
-  location.href = '/settings.html';
+  send('/settings');
+}
+
+function send(url) {
+  window.location.href = url;
 }
 
 function youtube() {
@@ -205,32 +176,6 @@ function youtube() {
   newWindow.document.body.appendChild(iframe);
   iframe.src = urlToInject;
 }
-
-function enableAboutBlank() {
-  localStorage.setItem('aboutBlank', 'enabled');
-  window.location.reload();
-}
-
-function disableAboutBlank() {
-  localStorage.setItem('aboutBlank', 'disabled');
-  window.location.reload();
-}
-
-// Add event listeners to show/hide the context menu
-document.addEventListener("contextmenu", showContextMenu);
-document.addEventListener("click", hideContextMenu);
-
-// Add event listener to hide the context menu and submenu when clicking outside of them
-document.addEventListener("click", function(event) {
-  var contextMenu = document.getElementById("contextMenu");
-  var submenu = document.querySelector('.context-submenu');
-
-  if (!contextMenu.contains(event.target)) {
-      hideContextMenu();
-  } else if (!submenu.contains(event.target)) {
-      hideSubmenu();
-  }
-});
 
 function vSite() {
   var checkHistory = localStorage.getItem('encodedUrl');
@@ -255,3 +200,19 @@ if (window.location.protocol === "http:") {
 }
 
 console.log("%cJoin our Discord! discord.gg/unblocking", "color: cyan; font-size: 20px");
+
+// Add event listeners to show/hide the context menu
+document.addEventListener("contextmenu", showContextMenu);
+document.addEventListener("click", hideContextMenu);
+
+// Add event listener to hide the context menu and submenu when clicking outside of them
+document.addEventListener("click", function(event) {
+  var contextMenu = document.getElementById("contextMenu");
+  var submenu = document.querySelector('.context-submenu');
+
+  if (!contextMenu.contains(event.target)) {
+      hideContextMenu();
+  } else if (!submenu.contains(event.target)) {
+      hideSubmenu();
+  }
+});

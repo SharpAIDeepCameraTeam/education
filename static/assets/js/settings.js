@@ -151,27 +151,37 @@ if (blankState === 'disabled' || blankState === '' || blankState === null) {
 }
 
 function driveCloak() {
-    localStorage.setItem('cloakedTitle', 'My Drive - Google Drive');
-    localStorage.setItem('cloakedIcon', 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png');
+    document.title = 'My Drive - Google Drive';
+    localStorage.setItem('tabTitle', 'My Drive - Google Drive');
+    localStorage.setItem('tabIcon', 'bi-folder');
     tabCloak();
 }
 
 function docsCloak() {
-    localStorage.setItem('cloakedTitle', 'Google Docs');
-    localStorage.setItem('cloakedIcon', '/assets/img/docs.webp');
+    document.title = 'Google Docs';
+    localStorage.setItem('tabTitle', 'Google Docs');
+    localStorage.setItem('tabIcon', 'bi-file-text');
     tabCloak();
 }
 
 function googleCloak() {
-    localStorage.setItem('cloakedTitle', 'Google');
-    localStorage.setItem('cloakedIcon', '/assets/img/google.webp');
+    document.title = 'Google';
+    localStorage.setItem('tabTitle', 'Google');
+    localStorage.setItem('tabIcon', 'bi-search');
     tabCloak();
 }
 
 function classroomCloak() {
-    localStorage.setItem('cloakedTitle', 'Classes');
-    localStorage.setItem('cloakedIcon', '/assets/img/classroom-icon.webp');
+    document.title = 'Classes';
+    localStorage.setItem('tabTitle', 'Classes');
+    localStorage.setItem('tabIcon', 'bi-mortarboard');
     tabCloak();
+}
+
+function disableTabCloak() {
+    document.title = 'Educational Resources';
+    localStorage.setItem('tabTitle', 'Educational Resources');
+    localStorage.setItem('tabIcon', 'bi-book');
 }
 
 function enableClickoffCloak() {

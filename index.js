@@ -28,9 +28,8 @@ app.get('/lessons', (req, res) => {
   res.sendFile(path.join(process.cwd(), './static/agloader.html'));
 });
 
-app.use((req, res) => {
-  res.statusCode = 404;
-  res.sendFile(path.join(process.cwd(), './static/404.html'))
+app.get('*', (req, res) => {
+  res.redirect('/');
 });
 
 httpServer.on("request", (req, res) => {
